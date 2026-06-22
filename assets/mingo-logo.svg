@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="64" viewBox="0 0 260 64" role="img" aria-labelledby="title desc">
+  <title id="title">Mingo Verticales</title>
+  <desc id="desc">Logotipo de Mingo Verticales</desc>
+  <g fill="none" stroke="#f26a2e" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 15 28 48 39 26 49 48"/>
+    <path d="M44 15h22l-19 17 19 17"/>
+  </g>
+  <text x="83" y="30" fill="#0b1d28" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">Mingo</text>
+  <text x="84" y="50" fill="#4d5d66" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="650">Verticales</text>
+</svg>

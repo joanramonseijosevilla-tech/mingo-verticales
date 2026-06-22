@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Mingo Verticales</title>
+  <desc id="desc">Isotipo de Mingo Verticales</desc>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="#fff7f3"/>
+  <g fill="none" stroke="#f26a2e" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 16 24 48 35 27 45 48"/>
+    <path d="M40 16h12L40 32l12 16"/>
+  </g>
+</svg>
