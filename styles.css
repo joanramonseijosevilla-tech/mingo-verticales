@@ -1100,6 +1100,24 @@ select[aria-invalid="true"] {
   margin: 0;
 }
 
+.footer-credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.footer-credit a {
+  display: inline-flex;
+  align-items: center;
+}
+
+.footer-credit img {
+  display: block;
+  width: 74px;
+  height: auto;
+}
+
 .footer-bottom div {
   display: flex;
   flex-wrap: wrap;

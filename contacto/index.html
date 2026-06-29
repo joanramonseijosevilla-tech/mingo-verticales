@@ -94,11 +94,12 @@
           </div>
         </div>
 
-        <form class="contact-form reveal" id="contact-form" action="https://formsubmit.co/mingoverticales@gmail.com" method="POST" novalidate>
-          <input type="hidden" name="_subject" value="Nueva solicitud desde la web de Mingo Verticales">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_captcha" value="false">
+        <form class="contact-form reveal" id="contact-form" data-endpoint="https://formsubmit.co/ajax/mingoverticales@gmail.com" method="POST" novalidate>
           <input class="form-honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <input type="hidden" name="_subject" value="Nueva solicitud desde la web de Mingo Verticales">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_template" value="table">
 
           <div class="form-row-two">
             <div>
@@ -191,6 +192,7 @@
     <div class="container footer-bottom">
       <p>© <span id="current-year"></span> Mingo Verticales.</p>
       <p>Servicio en Mataró, Maresme, Barcelona y Barcelonès.</p>
+      <p class="footer-credit">Creado por <a href="https://www.nexautia.com" target="_blank" rel="noopener noreferrer" aria-label="Nexautia, abrir en una nueva pestaña"><img src="../assets/nexautia-logo.svg" alt="Nexautia" width="74" height="22"></a></p>
     </div>
   </footer>
 </body>

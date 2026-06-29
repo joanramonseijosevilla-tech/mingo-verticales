@@ -40,7 +40,7 @@ PENDIENTE ANTES DE PUBLICAR
 3. Elegir dominio. Entonces añadir canonical, og:url y sitemap.xml con URLs absolutas.
 4. Añadir aviso legal y política de privacidad con datos reales del titular.
 5. Añadir fotografías reales de trabajos, testimonios y certificaciones cuando existan.
-6. Conectar un formulario a Make o correo solo después de disponer de la información legal necesaria.
+6. Probar el formulario y confirmar el correo receptor antes de publicar la versión definitiva.
 7. Revisar el logotipo definitivo cuando se entregue el archivo oficial.
 
 PRUEBA LOCAL
@@ -49,7 +49,11 @@ Abre la carpeta con Live Server y entra por index.html. No abras páginas suelta
 
 FORMULARIO DE CONTACTO
 ----------------------
-El formulario de /contacto/ está configurado para enviar las solicitudes a través de FormSubmit.
-IMPORTANTE: revisa el correo receptor configurado en contacto/index.html y realiza un primer envío de prueba.
-El servicio puede solicitar una confirmación inicial desde la cuenta de correo antes de aceptar mensajes.
+El formulario de /contacto/ envía la solicitud mediante JavaScript/AJAX, sin salir de la página, hacia FormSubmit.
+El correo receptor está configurado en /contacto/index.html como mingoverticales@gmail.com:
+https://formsubmit.co/ajax/mingoverticales@gmail.com
+
+Funciona en GitHub Pages y se puede probar desde Live Server.
+IMPORTANTE: la primera vez puede ser necesario confirmar el correo receptor desde el mensaje de activación que envía FormSubmit. Esto lo confirma solo el propietario del correo receptor, no cada usuario que rellena el formulario.
+
 Antes de publicar, añade aviso legal y política de privacidad definitivos.
