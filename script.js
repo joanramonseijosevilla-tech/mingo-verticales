@@ -159,3 +159,121 @@ form?.addEventListener("submit", async (event) => {
     if (submitButton) submitButton.disabled = false;
   }
 });
+
+
+// V2.3 · Galería ampliable de trabajos, separada por fases
+const workLightboxImages = [...document.querySelectorAll(".work-comparison-grid img, .work-gallery-grid img")];
+
+if (workLightboxImages.length) {
+  const galleryGroupFor = (image) => {
+    if (image.closest('[aria-labelledby="work-before-title"]')) return { id: "before", label: "Antes" };
+    if (image.closest('[aria-labelledby="work-process-title"]')) return { id: "process", label: "Intervención" };
+    if (image.closest('[aria-labelledby="work-result-title"]')) return { id: "after", label: "Después" };
+
+    const comparisonFigure = image.closest(".work-comparison-grid figure");
+    const comparisonLabel = comparisonFigure?.querySelector(".work-comparison-label")?.textContent?.trim().toLowerCase();
+    if (comparisonLabel === "antes") return { id: "before", label: "Antes" };
+    if (comparisonLabel === "después" || comparisonLabel === "despues") return { id: "after", label: "Después" };
+
+    return { id: "other", label: "Fotografías" };
+  };
+
+  const groups = new Map();
+
+  workLightboxImages.forEach((image) => {
+    const group = galleryGroupFor(image);
+    const src = image.currentSrc || image.src;
+    if (!groups.has(group.id)) groups.set(group.id, { label: group.label, images: [] });
+    const bucket = groups.get(group.id).images;
+    if (!bucket.some((item) => (item.currentSrc || item.src) === src)) bucket.push(image);
+    image.dataset.lightboxGroup = group.id;
+  });
+
+  const lightbox = document.createElement("div");
+  lightbox.className = "work-lightbox";
+  lightbox.setAttribute("role", "dialog");
+  lightbox.setAttribute("aria-modal", "true");
+  lightbox.setAttribute("aria-label", "Vista ampliada de la fotografía");
+  lightbox.innerHTML = `
+    <div class="work-lightbox-content">
+      <button class="work-lightbox-close" type="button" aria-label="Cerrar imagen ampliada">×</button>
+      <button class="work-lightbox-prev" type="button" aria-label="Fotografía anterior">‹</button>
+      <div class="work-lightbox-image-wrap"><img src="" alt=""></div>
+      <button class="work-lightbox-next" type="button" aria-label="Fotografía siguiente">›</button>
+      <p class="work-lightbox-caption"></p>
+    </div>`;
+  document.body.append(lightbox);
+
+  const lightboxImage = lightbox.querySelector("img");
+  const lightboxCaption = lightbox.querySelector(".work-lightbox-caption");
+  const closeButton = lightbox.querySelector(".work-lightbox-close");
+  const previousButton = lightbox.querySelector(".work-lightbox-prev");
+  const nextButton = lightbox.querySelector(".work-lightbox-next");
+  let currentGroupId = "";
+  let currentIndex = 0;
+  let previousFocus = null;
+
+  const imageCaption = (image) => image.closest("figure")?.querySelector("figcaption")?.textContent?.trim() || image.alt;
+
+  const currentGroup = () => groups.get(currentGroupId) || { label: "Fotografías", images: [] };
+
+  const showImage = (index) => {
+    const group = currentGroup();
+    if (!group.images.length) return;
+    currentIndex = (index + group.images.length) % group.images.length;
+    const source = group.images[currentIndex];
+    lightboxImage.src = source.currentSrc || source.src;
+    lightboxImage.alt = source.alt || "Fotografía ampliada del trabajo";
+    lightboxCaption.textContent = `${group.label} · ${currentIndex + 1} de ${group.images.length} · ${imageCaption(source)}`;
+    const hasSeveral = group.images.length > 1;
+    previousButton.hidden = !hasSeveral;
+    nextButton.hidden = !hasSeveral;
+  };
+
+  const openLightbox = (image) => {
+    previousFocus = document.activeElement;
+    currentGroupId = image.dataset.lightboxGroup || "other";
+    const group = currentGroup();
+    const src = image.currentSrc || image.src;
+    const foundIndex = group.images.findIndex((item) => (item.currentSrc || item.src) === src);
+    showImage(foundIndex >= 0 ? foundIndex : 0);
+    lightbox.classList.add("is-open");
+    document.body.classList.add("lightbox-open");
+    closeButton.focus();
+  };
+
+  const closeLightbox = () => {
+    lightbox.classList.remove("is-open");
+    document.body.classList.remove("lightbox-open");
+    lightboxImage.removeAttribute("src");
+    previousFocus?.focus?.();
+  };
+
+  workLightboxImages.forEach((image) => {
+    image.tabIndex = 0;
+    image.setAttribute("role", "button");
+    image.setAttribute("aria-label", `Ampliar fotografía: ${imageCaption(image)}`);
+    image.addEventListener("click", () => openLightbox(image));
+    image.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openLightbox(image);
+      }
+    });
+  });
+
+  closeButton.addEventListener("click", closeLightbox);
+  previousButton.addEventListener("click", () => showImage(currentIndex - 1));
+  nextButton.addEventListener("click", () => showImage(currentIndex + 1));
+
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!lightbox.classList.contains("is-open")) return;
+    if (event.key === "Escape") closeLightbox();
+    if (event.key === "ArrowLeft") showImage(currentIndex - 1);
+    if (event.key === "ArrowRight") showImage(currentIndex + 1);
+  });
+}
